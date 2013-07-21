@@ -27,13 +27,13 @@ namespace GameOfLife
         public static int getAdjecentCells(int x, int y)
         {
             int adjecent = 0;
-            if( x+1 < Universe.GetLength(1))
+            if( x+1 < Universe.GetLength(0))
                 if (Game.Universe[x + 1, y].Alive) adjecent++;
 
             if (y + 1 <  Universe.GetLength(1)) 
                 if (Game.Universe[x, y + 1].Alive) adjecent++;
 
-            if (x + 1 < Universe.GetLength(1) && y + 1 < Universe.GetLength(1))
+            if (x + 1 < Universe.GetLength(0) && y + 1 < Universe.GetLength(1))
                 if (Game.Universe[x + 1, y + 1].Alive) adjecent++;
 
             if (x - 1 >0)
@@ -42,18 +42,18 @@ namespace GameOfLife
             if (y-1 >0) 
                 if (Game.Universe[x, y - 1].Alive) adjecent++;
 
-            if (x + 1 <  Universe.GetLength(1))
+            if (y-1>0 && x-1>0)
                 if (Game.Universe[x - 1, y - 1].Alive) adjecent++;
 
-            if (x + 1 <  Universe.GetLength(1))
+            if (x-1>0 && y+1 < Universe.GetLength(1))
                 if (Game.Universe[x - 1, y + 1].Alive) adjecent++;
 
-            if (x + 1 <  Universe.GetLength(1))
+            if (y - 1 > 0 && x + 1 < Universe.GetLength(0))
                 if (Game.Universe[x + 1, y - 1].Alive) adjecent++;
             return adjecent;
         }
 
-
+        public static int TotalGenerations = 0;
         public static void CalculateNextGeneration()
         {
             Cell[,] NextUniverse = new Cell[150, 100];
@@ -66,7 +66,11 @@ namespace GameOfLife
                     if (Universe[i, j].Alive)
                     {
                         if (adjecent < 2 && adjecent > 3) NextUniverse[i, j].Alive = false;
-                        if (adjecent > 1 && adjecent < 4) NextUniverse[i, j].Alive = true;
+                        if (adjecent > 1 && adjecent < 4)
+                        {
+                            NextUniverse[i, j].Alive = true;
+                            NextUniverse[i, j].Generation = Universe[i, j].Generation + 1;
+                        }
                     }
                     else
                     {
@@ -75,6 +79,7 @@ namespace GameOfLife
 
                 }
             }
+            TotalGenerations ++;
             Universe = NextUniverse;
             Redraw();
         }

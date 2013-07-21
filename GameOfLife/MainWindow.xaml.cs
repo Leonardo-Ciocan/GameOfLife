@@ -27,21 +27,22 @@ namespace GameOfLife
             this.Loaded += MainWindow_Loaded;
         }
 
+        private bool MouseDown = false;
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Game.InitializeUniverse();
-            DrawUniverse();
-            Game.Redraw += DrawUniverse;
-            DispatcherTimer dt = new DispatcherTimer();
-            dt.Interval = TimeSpan.FromSeconds(0.1);
+            DrawInitialUniverse();
+            Game.Redraw += UpdateUniverse;
+            var dt = new DispatcherTimer {Interval = TimeSpan.FromSeconds(0.0001)};
             dt.Tick += (a, b) => Game.CalculateNextGeneration();
-            this.KeyDown += (a, b) =>
-            {
-                if (b.Key == Key.Space) dt.Start();
-            };
+            btnStart.Click += (a, b) => dt.Start();
+            MouseLeftButtonDown += (a, b) => MouseDown = true;
+            MouseLeftButtonUp += (a, b) => MouseDown = false;
         }
 
-        public void DrawUniverse()
+
+        public Rectangle[,] DrawnUniverse = new Rectangle[150,100];
+        public void DrawInitialUniverse()
         {
             root.Children.Clear();
             for (int i = 0; i < 150; i++)
@@ -56,15 +57,23 @@ namespace GameOfLife
                         StrokeThickness = 0.3
                     };
                     rect.Tag = new Point(i, j);
-                    rect.MouseLeftButtonDown += (a, b) =>
+                    rect.MouseEnter += (a, b) =>
                     {
-                        Point pos = (Point)rect.Tag;
-                        (Game.Universe[(int) pos.X, (int) pos.Y].Alive) =
-                            !(Game.Universe[(int) pos.X, (int) pos.Y].Alive);
-                        rect.Fill = new SolidColorBrush((Game.Universe[(int)pos.X, (int)pos.Y].Alive) ? Colors.Black : Colors.White);
+                        if (MouseDown)
+                        {
+                            Point pos = (Point) rect.Tag;
+                            (Game.Universe[(int) pos.X, (int) pos.Y].Alive) =
+                                !(Game.Universe[(int) pos.X, (int) pos.Y].Alive);
+                            rect.Fill =
+                                new SolidColorBrush((Game.Universe[(int) pos.X, (int) pos.Y].Alive)
+                                    ? Colors.Black
+                                    : Colors.White);
+                        }
+
                     };
                     rect.Fill = new SolidColorBrush((Game.Universe[i, j].Alive) ?  Colors.Black:Colors.White );
                     root.Children.Add(rect);
+                    DrawnUniverse[i, j] = rect;
                     Canvas.SetLeft(rect , i* 8);
                     Canvas.SetTop(rect, j * 8);
                 }
@@ -72,7 +81,20 @@ namespace GameOfLife
         }
 
         
-
+        public void UpdateUniverse()
+        {
+            for (int i = 0; i < 150; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    var rect = DrawnUniverse[i,j];
+                    //Color col = (Game.Universe[i, j].Alive) ? Colors.Black : Colors.White;
+                    //if (col != (rect.Fill as SolidColorBrush).Color) rect.Fill = new SolidColorBrush(col);
+                    rect.Visibility = ((Game.Universe[i, j].Alive)) ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+            txtGeneration.Text = Game.TotalGenerations.ToString();
+        }
         
     }
 }
