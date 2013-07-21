@@ -89,7 +89,7 @@ namespace GameOfLife
                     DrawnUniverse[i, j].AliveMask.Visibility = ((Game.Universe[i, j].Alive)) ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
-            txtGeneration.Text = Game.TotalGenerations.ToString();
+            //txtGeneration.Text = Game.TotalGenerations.ToString();
         }
         
     }

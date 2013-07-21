@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="800" Width="1400" Background="DarkGray">
     <Grid Margin="0,0,192,0">
-		<Canvas x:Name="root" Width="1200" HorizontalAlignment="Left"/>
-		<Button x:Name="btnStart" Content="Begin" Margin="1221,13,-182,722"/>
-		<TextBlock TextWrapping="Wrap" Margin="0,52,-82.25,0" Height="15.96" VerticalAlignment="Top" HorizontalAlignment="Right" Width="61.25"><Run Language="en-gb" Text="Generation:"/></TextBlock>
-		<TextBlock x:Name="txtGeneration" TextWrapping="Wrap" Margin="1287.25,52,-182,0" Height="15.96" VerticalAlignment="Top" HorizontalAlignment="Left" Width="94.75"/>
-	</Grid>
+        <Canvas x:Name="root" Width="1200" HorizontalAlignment="Left"/>
+        <Button x:Name="btnStart" Content="Begin" Margin="1221,13,-182,722"/>
+        <TextBlock TextWrapping="Wrap" Margin="0,52,-82.25,0" Height="15.96" VerticalAlignment="Top" HorizontalAlignment="Right" Width="61.25" Visibility="Collapsed"><Run Language="en-gb" Text="Generation:"/></TextBlock>
+        <TextBlock x:Name="txtGeneration" TextWrapping="Wrap" Margin="1287.25,52,-182,0" Height="15.96" VerticalAlignment="Top" HorizontalAlignment="Left" Width="94.75" Visibility="Collapsed"/>
+    </Grid>
 </Window>
