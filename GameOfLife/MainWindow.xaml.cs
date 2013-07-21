@@ -41,7 +41,7 @@ namespace GameOfLife
         }
 
 
-        public Rectangle[,] DrawnUniverse = new Rectangle[150,100];
+        public CellControl[,] DrawnUniverse = new CellControl[150,100];
         public void DrawInitialUniverse()
         {
             root.Children.Clear();
@@ -49,13 +49,7 @@ namespace GameOfLife
             {
                 for (int j = 0; j < 100; j++)
                 {
-                    var rect = new Rectangle
-                    {
-                        Width =8 ,
-                        Height=8,
-                        Stroke= new SolidColorBrush(Colors.Gray),
-                        StrokeThickness = 0.3
-                    };
+                    var rect = new CellControl();
                     rect.Tag = new Point(i, j);
                     rect.MouseEnter += (a, b) =>
                     {
@@ -64,14 +58,17 @@ namespace GameOfLife
                             Point pos = (Point) rect.Tag;
                             (Game.Universe[(int) pos.X, (int) pos.Y].Alive) =
                                 !(Game.Universe[(int) pos.X, (int) pos.Y].Alive);
-                            rect.Fill =
-                                new SolidColorBrush((Game.Universe[(int) pos.X, (int) pos.Y].Alive)
-                                    ? Colors.Black
-                                    : Colors.White);
+                            rect.AliveMask.Visibility =
+                                (Game.Universe[(int) pos.X, (int) pos.Y].Alive)
+                                    ? Visibility.Visible
+                                    : Visibility.Collapsed;
                         }
 
                     };
-                    rect.Fill = new SolidColorBrush((Game.Universe[i, j].Alive) ?  Colors.Black:Colors.White );
+                    rect.AliveMask.Visibility =
+                                (Game.Universe[i,j].Alive)
+                                    ? Visibility.Visible
+                                    : Visibility.Collapsed;
                     root.Children.Add(rect);
                     DrawnUniverse[i, j] = rect;
                     Canvas.SetLeft(rect , i* 8);
@@ -90,7 +87,7 @@ namespace GameOfLife
                     var rect = DrawnUniverse[i,j];
                     //Color col = (Game.Universe[i, j].Alive) ? Colors.Black : Colors.White;
                     //if (col != (rect.Fill as SolidColorBrush).Color) rect.Fill = new SolidColorBrush(col);
-                    rect.Visibility = ((Game.Universe[i, j].Alive)) ? Visibility.Visible : Visibility.Collapsed;
+                    rect.AliveMask.Visibility = ((Game.Universe[i, j].Alive)) ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
             txtGeneration.Text = Game.TotalGenerations.ToString();

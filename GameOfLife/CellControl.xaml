@@ -8,7 +8,7 @@
 	x:Name="UserControl"
 	d:DesignWidth="640" d:DesignHeight="480" Width="8" Height="8">
 
-	<Border BorderThickness="0.1" BorderBrush="#FFA6A6A6">
+	<Border BorderThickness="0.3" BorderBrush="#FFA6A6A6" Background="White">
 
 		<Grid x:Name="AliveMask" HorizontalAlignment="Left" Height="8" VerticalAlignment="Top" Width="8" Background="Black"/>
 	</Border>
