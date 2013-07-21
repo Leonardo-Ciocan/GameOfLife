@@ -33,7 +33,7 @@ namespace GameOfLife
             Game.InitializeUniverse();
             DrawInitialUniverse();
             Game.Redraw += UpdateUniverse;
-            var dt = new DispatcherTimer {Interval = TimeSpan.FromSeconds(0.0001)};
+            var dt = new DispatcherTimer {Interval = TimeSpan.FromSeconds(0.01)};
             dt.Tick += (a, b) => Game.CalculateNextGeneration();
             btnStart.Click += (a, b) => dt.Start();
             MouseLeftButtonDown += (a, b) => MouseDown = true;
@@ -84,10 +84,9 @@ namespace GameOfLife
             {
                 for (int j = 0; j < 100; j++)
                 {
-                    var rect = DrawnUniverse[i,j];
                     //Color col = (Game.Universe[i, j].Alive) ? Colors.Black : Colors.White;
                     //if (col != (rect.Fill as SolidColorBrush).Color) rect.Fill = new SolidColorBrush(col);
-                    rect.AliveMask.Visibility = ((Game.Universe[i, j].Alive)) ? Visibility.Visible : Visibility.Collapsed;
+                    DrawnUniverse[i, j].AliveMask.Visibility = ((Game.Universe[i, j].Alive)) ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
             txtGeneration.Text = Game.TotalGenerations.ToString();
