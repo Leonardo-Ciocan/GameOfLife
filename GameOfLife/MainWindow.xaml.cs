@@ -66,9 +66,9 @@ namespace GameOfLife
             {
                 for (int j = 0; j < 100; j++)
                 {
-                    //Color c = Color.FromRgb((byte)Math.Min(255, Math.Floor(Game.Universe[i, j].Generation/1000.0)), 0, 0);
+                    Color c = Color.FromRgb(0,0,(byte)Math.Min(255, Math.Floor((double)Game.Universe[i, j].Generation*10)) );
                     UniverseImage.FillRectangle(i*8, j*8, i*8 + 8, j*8 + 8,
-                        (Game.Universe[i, j].Alive) ? Colors.Black : Colors.White);
+                        (Game.Universe[i, j].Alive) ? c : Colors.White);
                 }
             }
         }
